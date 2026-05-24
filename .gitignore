@@ -1,0 +1,22 @@
+# Go binary
+BETODO/todo-server
+
+# Environment
+.env*
+
+# Go build cache
+BETODO/vendor/
+
+# Frontend
+FETODO/node_modules/
+FETODO/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

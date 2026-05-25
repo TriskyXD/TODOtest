@@ -1,62 +1,59 @@
-import { CheckCircle, Circle, Trash01, Edit02 } from '@untitled-ui/icons-react'
+import { Edit01, Trash02 } from '@untitled-ui/icons-react'
+import { Checkbox } from './Checkbox'
 import type { Todo } from '../types/todo'
 
 interface Props {
   todo: Todo
-  onToggle:  (todo: Todo) => void
-  onDelete:  (id: number) => void
-  onEdit:    (todo: Todo) => void
+  onToggle: (todo: Todo) => void
+  onDelete: (id: number) => void
+  onEdit: (todo: Todo) => void
 }
 
 export function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
   return (
-    <div className={`flex items-start gap-3 p-4 bg-white rounded-xl border transition-colors ${
-      todo.completed ? 'border-gray-100' : 'border-gray-200'
-    } shadow-xs hover:shadow-sm`}>
+    <div className="flex items-center justify-between min-h-[70px] p-[10px] bg-white">
 
-      {/* Checkbox */}
-      <button
-        onClick={() => onToggle(todo)}
-        className={`mt-0.5 shrink-0 transition-colors ${
-          todo.completed ? 'text-success-500' : 'text-gray-300 hover:text-brand-500'
-        }`}
-        aria-label={todo.completed ? 'Mark incomplete' : 'Mark complete'}
-      >
-        {todo.completed
-          ? <CheckCircle className="w-5 h-5" />
-          : <Circle      className="w-5 h-5" />
-        }
-      </button>
-
-      {/* Content */}
-      <div className="flex-1 min-w-0">
-        <p className={`text-sm font-medium truncate ${todo.completed ? 'line-through text-gray-400' : 'text-gray-900'}`}>
-          {todo.title}
-        </p>
-        {todo.description && (
-          <p className="text-sm text-gray-500 mt-0.5 line-clamp-2">
-            {todo.description}
+      {/* Left: checkbox + title/description */}
+      <div className="flex items-center gap-[10px] p-[10px] min-w-0">
+        <Checkbox checked={todo.completed} onChange={() => onToggle(todo)} />
+        <div className="flex flex-col gap-[10px] p-[10px] min-w-0">
+          <p
+            className={`text-[12px] font-normal leading-normal truncate ${
+              todo.completed ? 'line-through text-[#737373]' : 'text-black'
+            }`}
+          >
+            {todo.title}
           </p>
-        )}
+          {todo.description && (
+            <p
+              className={`text-[12px] font-normal leading-normal truncate ${
+                todo.completed ? 'text-[#737373]' : 'text-black'
+              }`}
+            >
+              {todo.description}
+            </p>
+          )}
+        </div>
       </div>
 
-      {/* Actions */}
-      <div className="flex items-center gap-1 shrink-0">
+      {/* Right: action icons */}
+      <div className="flex items-start gap-[10px] p-[10px] shrink-0">
         <button
           onClick={() => onEdit(todo)}
-          className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
           aria-label="Edit"
+          className="text-[#7f56d9] hover:opacity-70 transition-opacity"
         >
-          <Edit02 className="w-4 h-4" />
+          <Edit01 className="w-6 h-6" />
         </button>
         <button
           onClick={() => onDelete(todo.id)}
-          className="p-1.5 text-gray-400 hover:text-error-500 hover:bg-error-50 rounded-lg transition-colors"
           aria-label="Delete"
+          className="text-[#7f56d9] hover:opacity-70 transition-opacity"
         >
-          <Trash01 className="w-4 h-4" />
+          <Trash02 className="w-6 h-6" />
         </button>
       </div>
+
     </div>
   )
 }

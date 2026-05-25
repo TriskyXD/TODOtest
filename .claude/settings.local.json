@@ -3,7 +3,30 @@
     "allow": [
       "Bash(go version *)",
       "Bash(docker info *)",
-      "Bash(go mod *)"
+      "Bash(go mod *)",
+      "mcp__d0941a1e-cbcb-4233-bf54-2a82ef07855b__get_design_context",
+      "mcp__d0941a1e-cbcb-4233-bf54-2a82ef07855b__get_screenshot",
+      "mcp__d0941a1e-cbcb-4233-bf54-2a82ef07855b__use_figma",
+      "Bash(node -e \"const icons = require\\('@untitled-ui/icons-react'\\); console.log\\(['Edit01','Trash02','Plus'].map\\(n => n + ': ' + \\(n in icons ? 'ok' : 'MISSING'\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node --input-type=module -e \"import * as icons from './node_modules/@untitled-ui/icons-react/dist/esm/index.js'; console.log\\(['Edit01','Edit02','Trash01','Trash02','Plus'].map\\(n => n + ': ' + \\(n in icons ? 'ok' : 'MISSING'\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(npm install *)",
+      "Bash(node -e \"const pkg = require\\('./C:/Users/vikto/Desktop/projekt/TODOtest/FETODO/node_modules/@untitled-ui/icons-react/index.js'\\); const keys = Object.keys\\(pkg\\); console.log\\('Total:', keys.length\\); console.log\\(['Edit01','Edit02','Trash01','Trash02','Plus','Check'].map\\(n => n+': '+\\(n in pkg ? 'OK' : 'MISSING'\\)\\).join\\('\\\\n'\\)\\);\")",
+      "Bash(node -e \"const icons = require\\('./node_modules/@untitled-ui/icons-react/build/cjs/index.js'\\); const keys = Object.keys\\(icons\\); console.log\\('Total:', keys.length\\); console.log\\(['Edit01','Edit02','Trash01','Trash02','Plus','Check'].map\\(n => n+': '+\\(n in icons ? 'OK' : 'MISSING'\\)\\).join\\('\\\\n'\\)\\);\")",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3099/)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(docker compose *)",
+      "Bash(go run *)",
+      "Bash(curl -s http://localhost:8080/todos)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "PowerShell(cd \"C:\\\\Users\\\\vikto\\\\Desktop\\\\projekt\\\\TODOtest\\\\BETODO\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"cd 'C:\\\\Users\\\\vikto\\\\Desktop\\\\projekt\\\\TODOtest\\\\BETODO'; go run ./cmd/server\" -WindowStyle Normal)",
+      "PowerShell(Start-Sleep 8; try { $r = Invoke-WebRequest -Uri http://localhost:8080/todos -UseBasicParsing -TimeoutSec 5; \"BE: $\\($r.StatusCode\\) — $\\($r.Content.Substring\\(0,[Math]::Min\\(100,$r.Content.Length\\)\\)\\)\" } catch { \"BE error: $_\" })",
+      "PowerShell(go version)",
+      "PowerShell($paths = @\\(\"C:\\\\Go\\\\bin\\\\go.exe\", \"C:\\\\Program Files\\\\Go\\\\bin\\\\go.exe\", \"$env:USERPROFILE\\\\go\\\\bin\\\\go.exe\", \"$env:LOCALAPPDATA\\\\Programs\\\\Go\\\\bin\\\\go.exe\"\\); foreach \\($p in $paths\\) { if \\(Test-Path $p\\) { Write-Output \"Found: $p\"; & $p version } })",
+      "PowerShell($env:PATH -split \";\" | Where-Object { $_ -match \"go\" })",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\Go\\\\bin;$env:PATH\"; Set-Location \"C:\\\\Users\\\\vikto\\\\Desktop\\\\projekt\\\\TODOtest\\\\BETODO\"; $job = Start-Job -ScriptBlock { $env:PATH = \"C:\\\\Program Files\\\\Go\\\\bin;$env:PATH\"; Set-Location \"C:\\\\Users\\\\vikto\\\\Desktop\\\\projekt\\\\TODOtest\\\\BETODO\"; & \"C:\\\\Program Files\\\\Go\\\\bin\\\\go.exe\" run ./cmd/server 2>&1 }; Start-Sleep 25; Receive-Job $job)"
     ]
   }
 }

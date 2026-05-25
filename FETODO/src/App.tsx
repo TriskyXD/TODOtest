@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react'
-import { CheckDone01 } from '@untitled-ui/icons-react'
 import { api } from './services/api'
 import { TodoItem } from './components/TodoItem'
 import { TodoForm } from './components/TodoForm'
@@ -7,12 +6,18 @@ import type { Todo, CreateTodoInput } from './types/todo'
 
 type Filter = 'all' | 'active' | 'completed'
 
+const FILTER_LABELS: Record<Filter, string> = {
+  all: 'All',
+  active: 'Active',
+  completed: 'Completed',
+}
+
 export default function App() {
-  const [todos,      setTodos]      = useState<Todo[]>([])
-  const [editTarget, setEditTarget] = useState<Todo | null>(null)
-  const [filter,     setFilter]     = useState<Filter>('all')
-  const [loading,    setLoading]    = useState(true)
-  const [error,      setError]      = useState('')
+  const [todos,       setTodos]       = useState<Todo[]>([])
+  const [editTarget,  setEditTarget]  = useState<Todo | null>(null)
+  const [filter,      setFilter]      = useState<Filter>('all')
+  const [loading,     setLoading]     = useState(true)
+  const [error,       setError]       = useState('')
 
   const loadTodos = useCallback(async () => {
     try {
@@ -56,71 +61,73 @@ export default function App() {
     filter === 'active'    ? !t.completed :
     /* completed */           t.completed
   )
-  const doneCount   = todos.filter(t => t.completed).length
-  const activeCount = todos.length - doneCount
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
-      <div className="max-w-xl mx-auto space-y-6">
+    <div className="min-h-screen py-[10px] px-[10px]">
+      <div className="flex flex-col md:flex-row gap-[10px] max-w-[936px] mx-auto">
 
-        {/* Header */}
-        <div className="flex items-center gap-2">
-          <CheckDone01 className="w-6 h-6 text-brand-600" />
-          <h1 className="text-xl font-semibold text-gray-900">My Tasks</h1>
-          <span className="ml-auto text-sm text-gray-400">
-            {activeCount} remaining
-          </span>
+        {/* Left panel — heading + form */}
+        <div className="md:w-[332px] shrink-0 flex flex-col gap-[10px] pt-6 pb-[29px] px-[10px] bg-white rounded-[20px]">
+          <h1 className="text-[36px] font-bold text-[#171717] tracking-[-0.02em] leading-[44px] whitespace-nowrap">
+            My Tasks
+          </h1>
+          <TodoForm
+            key={editTarget?.id ?? 'new'}
+            initial={editTarget ?? undefined}
+            onSubmit={editTarget ? handleUpdate : handleCreate}
+            onCancel={() => setEditTarget(null)}
+          />
         </div>
 
-        {/* Create / Edit form */}
-        <TodoForm
-          key={editTarget?.id ?? 'new'}
-          initial={editTarget ?? undefined}
-          onSubmit={editTarget ? handleUpdate : handleCreate}
-          onCancel={() => setEditTarget(null)}
-        />
+        {/* Right panel — filter + task list */}
+        <div className="flex-1 flex flex-col gap-[10px] p-[10px] bg-white">
 
-        {/* Filter tabs */}
-        <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
-          {(['all', 'active', 'completed'] as Filter[]).map(f => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`flex-1 py-1.5 text-sm font-medium rounded-md capitalize transition-colors ${
-                filter === f
-                  ? 'bg-white text-gray-900 shadow-xs'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              {f}
-            </button>
-          ))}
+          {/* Filter button group */}
+          <div className="flex items-stretch self-start border border-[#d4d4d4] rounded-[8px] shadow-[0px_1px_1px_rgba(0,0,0,0.05)] overflow-hidden shrink-0">
+            {(['all', 'active', 'completed'] as Filter[]).map((f, i) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={[
+                  'px-[16px] py-[10px] text-[14px] font-semibold text-[#404040] transition-colors',
+                  i < 2 ? 'border-r border-[#d4d4d4]' : '',
+                  filter === f
+                    ? 'bg-[rgba(212,212,212,0.26)]'
+                    : 'bg-white hover:bg-[rgba(212,212,212,0.1)]',
+                ].join(' ')}
+              >
+                {FILTER_LABELS[f]}
+              </button>
+            ))}
+          </div>
+
+          {/* Status messages */}
+          {loading && (
+            <p className="text-center text-[14px] text-[#737373] py-8">Loading…</p>
+          )}
+          {error && (
+            <p className="text-center text-[14px] text-red-500 py-4">{error}</p>
+          )}
+          {!loading && !error && visible.length === 0 && (
+            <p className="text-center text-[14px] text-[#737373] py-8">
+              {filter === 'all' ? 'No tasks yet — add one!' : `No ${filter} tasks.`}
+            </p>
+          )}
+
+          {/* Task list */}
+          <div className="flex flex-col">
+            {visible.map(todo => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onToggle={handleToggle}
+                onDelete={handleDelete}
+                onEdit={setEditTarget}
+              />
+            ))}
+          </div>
+
         </div>
-
-        {/* List */}
-        {loading && (
-          <p className="text-center text-sm text-gray-400 py-8">Loading…</p>
-        )}
-        {error && (
-          <p className="text-center text-sm text-error-500 py-4">{error}</p>
-        )}
-        {!loading && !error && visible.length === 0 && (
-          <p className="text-center text-sm text-gray-400 py-8">
-            {filter === 'all' ? 'No tasks yet — add one above!' : `No ${filter} tasks.`}
-          </p>
-        )}
-        <div className="space-y-2">
-          {visible.map(todo => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onToggle={handleToggle}
-              onDelete={handleDelete}
-              onEdit={setEditTarget}
-            />
-          ))}
-        </div>
-
       </div>
     </div>
   )

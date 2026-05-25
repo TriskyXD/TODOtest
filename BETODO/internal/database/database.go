@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/url"
 	"time"
 
 	_ "github.com/microsoft/go-mssqldb"
@@ -12,7 +13,11 @@ import (
 // Connect opens a connection to SQL Server, creates the app database if missing,
 // and returns a ready-to-use *sql.DB.
 func Connect(host, port, user, password, dbName string) (*sql.DB, error) {
-	masterDSN := fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=master", user, password, host, port)
+	q := url.Values{}
+	q.Set("database", "master")
+	q.Set("TrustServerCertificate", "true")
+	masterDSN := fmt.Sprintf("sqlserver://%s:%s@%s:%s?%s",
+		url.PathEscape(user), url.PathEscape(password), host, port, q.Encode())
 
 	// MSSQL in Docker takes ~20s to initialise, so we retry before giving up.
 	var masterDB *sql.DB
@@ -47,7 +52,11 @@ func Connect(host, port, user, password, dbName string) (*sql.DB, error) {
 		return nil, fmt.Errorf("create database: %w", err)
 	}
 
-	dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s", user, password, host, port, dbName)
+	q2 := url.Values{}
+	q2.Set("database", dbName)
+	q2.Set("TrustServerCertificate", "true")
+	dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%s?%s",
+		url.PathEscape(user), url.PathEscape(password), host, port, q2.Encode())
 	db, err := sql.Open("sqlserver", dsn)
 	if err != nil {
 		return nil, fmt.Errorf("open app database: %w", err)

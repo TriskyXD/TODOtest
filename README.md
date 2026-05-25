@@ -1,55 +1,80 @@
-# TODO Backend
+# TODOtest
 
-A REST API for managing TODO tasks, built with Go and MS SQL Server.
+A full-stack TODO application — Go REST API backend + React frontend.
 
-## Requirements
+> **Vibecoded project** — built by someone learning as they go, with the help of AI.
+> Not production-ready, but a great starting point for exploring Go + React + Figma-driven development.
+
+## Docs
+
+- [Using AI to code from a Figma design](docs/figma-ai-coding.md)
+
+---
+
+## Monorepo structure
+
+```
+TODOtest/
+├── BETODO/   ← Go backend (REST API + MS SQL)
+├── FETODO/   ← React frontend (Vite + Tailwind + Untitled UI)
+└── docs/     ← Guides and documentation
+```
+
+---
+
+## Backend (BETODO)
+
+### Requirements
 
 - [Go 1.23+](https://go.dev/dl/)
 - [Docker](https://www.docker.com/) with Docker Compose
 
-## Running the project
+### Running the backend
 
-### 1. Install Go dependencies
-
+**1. Install Go dependencies**
 ```bash
+cd BETODO
 go mod tidy
 ```
 
-### 2. Set up environment variables
-
+**2. Set up environment variables**
 ```bash
 cp .env.example .env
 ```
-
 The defaults in `.env.example` work out of the box for local development — no changes needed.
 
-### 3. Start MS SQL in Docker
-
+**3. Start MS SQL in Docker**
 ```bash
 docker compose up -d
 ```
+The first startup takes about 20–30 seconds while SQL Server initialises.
+The Go app retries automatically, so you can start both together.
 
-The first startup takes about 20–30 seconds while SQL Server initialises. The Go app will retry automatically, so you can run both together.
-
-### 4. Start the server
-
+**4. Start the server**
 ```bash
 go run ./cmd/server
 ```
 
-The app will:
+On startup the app will:
 1. Connect to SQL Server
 2. Create the `tododb` database if it does not exist
 3. Create the `todos` table if it does not exist
 4. Start listening on `http://localhost:8080`
 
----
+### Project structure
 
-## API Reference
+```
+cmd/server/main.go       — entry point, wires up DB, router, and handlers
+internal/database/       — database connection and migrations
+internal/models/         — shared data structs (Todo, request types)
+internal/repository/     — all SQL queries
+internal/handlers/       — HTTP request/response logic
+internal/middleware/     — CORS middleware
+```
+
+### API Reference
 
 All endpoints accept and return `application/json`.
-
-### Endpoints
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -59,8 +84,6 @@ All endpoints accept and return `application/json`.
 | `PUT` | `/todos/{id}` | Replace a task |
 | `PATCH` | `/todos/{id}/complete` | Toggle completed status |
 | `DELETE` | `/todos/{id}` | Delete a task |
-
-### Response shape
 
 **Todo object:**
 ```json
@@ -79,9 +102,7 @@ All endpoints accept and return `application/json`.
 { "error": "todo not found" }
 ```
 
----
-
-## Example requests
+### Example requests
 
 ```bash
 # Create a task
@@ -100,7 +121,7 @@ curl -X PATCH http://localhost:8080/todos/1/complete \
   -H "Content-Type: application/json" \
   -d '{"completed": true}'
 
-# Update a task (replaces title, description, and completed)
+# Update a task
 curl -X PUT http://localhost:8080/todos/1 \
   -H "Content-Type: application/json" \
   -d '{"title": "Updated title", "description": "New description", "completed": false}'
@@ -111,14 +132,39 @@ curl -X DELETE http://localhost:8080/todos/1
 
 ---
 
-## Project structure
+## Frontend (FETODO)
+
+### Requirements
+
+- [Node.js 18+](https://nodejs.org/)
+
+### Running the frontend
+
+```bash
+cd FETODO
+npm install       # first time only
+npm run dev       # dev server on http://localhost:3000
+```
+
+Other commands:
+```bash
+npm run build     # production build → dist/
+npm run preview   # preview the production build
+```
+
+### Project structure
 
 ```
-cmd/server/main.go          — entry point, wires up DB, router, and handlers
-internal/database/          — database connection and migrations
-internal/models/            — shared data structs (Todo, request types)
-internal/repository/        — all SQL queries
-internal/handlers/          — HTTP request/response logic
-internal/middleware/        — CORS middleware
-migrations/                 — raw SQL schema (also applied automatically on startup)
+src/
+├── components/       — TodoItem.tsx, TodoForm.tsx
+├── services/api.ts   — typed fetch wrapper for all backend calls
+├── types/todo.ts     — shared Todo, CreateTodoInput, UpdateTodoInput interfaces
+└── App.tsx           — state, filtering, and layout
 ```
+
+### Dev proxy
+
+In development, Vite proxies `/todos` → `http://localhost:8080` so the frontend
+calls the backend directly without CORS issues.
+
+For production, set `VITE_API_URL=https://your-backend` in `FETODO/.env`.

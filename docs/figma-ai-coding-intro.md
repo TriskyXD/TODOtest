@@ -19,8 +19,6 @@ You stay in your editor the whole time. No copy-pasting CSS, no guessing hex val
 
 There are two ways to bridge Figma and code. This project uses **Option A**.
 
----
-
 ### Option A — Design → Code ✅ used in this project
 
 > A developer reads a Figma design and generates React components from it.
@@ -53,17 +51,64 @@ There are two ways to bridge Figma and code. This project uses **Option A**.
 
 ---
 
----
-
 ## Prerequisites
 
-- Claude Code with the Figma MCP configured (already set up in this project)
-- A Figma account with at least **view access** to the file you want to use
-- The frontend project running (`cd FETODO && npm run dev`)
+- A [Figma](https://figma.com) account with at least **view access** to the file you want to use
+- [Node.js](https://nodejs.org/) installed (needed for Claude Code)
+- A React project set up and running locally
+
+---
+
+## Setup — first time only
+
+If you are using this project, the Figma MCP is already configured. If you are
+starting a new project from scratch, follow these steps once.
+
+### 1. Install Claude Code
+
+Claude Code is a CLI tool you run in your terminal alongside your editor.
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+Then start it in your project folder:
+
+```bash
+claude
+```
+
+### 2. Add the Figma MCP
+
+Inside Claude Code, run:
+
+```bash
+claude mcp add --transport http figma https://mcp.figma.com/mcp
+```
+
+This registers the Figma MCP server so Claude can read your Figma files.
+You only need to do this once — it saves to your Claude Code config automatically.
+
+### 3. Authenticate with Figma
+
+The first time Claude tries to access a Figma file it will prompt you to log in.
+Follow the browser flow and grant access. After that, authentication is automatic.
+
+### 4. Verify it works
+
+Ask Claude:
+
+> "Who am I logged in as on Figma?"
+
+If it returns your name and email, you are connected and ready to go.
 
 ---
 
 ## Step-by-step workflow
+
+> **Before you start:** it helps to plan your app first — what screens it has, what each
+> screen needs, and what components you will build. Use the
+> [App development PRD guide](figma-ai-coding-principle.md) as a starting point.
 
 ### 1. Open your Figma file
 Navigate to the frame or component you want to implement.
@@ -77,7 +122,7 @@ The `node-id` parameter tells Claude exactly which frame to read.
 
 To get the node-specific URL, right-click a frame in Figma and choose **Copy link**:
 
-![Figma frame with Copy link highlighted](image.png)
+![Figma frame with Copy link highlighted](assets/image.png)
 
 *The screenshot above shows the actual TODOTest frame used in this project — notice "Copy link" highlighted in the context menu. That URL is what you paste into Claude.*
 
@@ -93,38 +138,17 @@ Claude will:
 3. Generate a typed React component that matches
 
 ### 4. Review and save
-The component lands in `FETODO/src/components/`. Review it, adjust any details,
+The component lands in `src/components/`. Review it, adjust any details,
 and it is ready to import and reuse anywhere in the app.
 
 ---
 
 ## Tips
 
-- **Be specific with the URL** — link to the exact frame, not just the file root.
-  Grab the node-specific URL by right-clicking a frame in Figma → *Copy link*.
 - **Reuse, don't regenerate** — once a component exists in `src/components/` you
   never need to go back to Figma for it. Just import it.
 - **Iterate in chat** — if the generated component doesn't look right, describe
   what's off ("make the button full width", "use a lighter shadow") and Claude will
   update it without touching Figma again.
-- **Tailwind tokens** — this project uses Untitled UI design tokens in
-  `tailwind.config.js`. Claude is aware of them and will prefer those over
-  arbitrary values.
-
----
-
-## Figma MCP authentication
-
-The Figma MCP server runs at:
-```
-https://mcp.figma.com/mcp
-```
-
-This is the endpoint Claude Code connects to in order to read your Figma files.
-It is configured in your Claude Code MCP settings — no manual setup needed if
-you followed the standard Figma MCP installation.
-
-Authentication is handled automatically via the MCP connection. If you ever see a
-permission error, check that:
-1. You are logged into the correct Figma account in the MCP settings
-2. You have at least **view** access to the Figma file
+- **Tailwind tokens** — if your project uses design tokens in `tailwind.config.js`,
+  tell Claude about them. It will prefer token names over arbitrary values.

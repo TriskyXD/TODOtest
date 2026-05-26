@@ -7,11 +7,16 @@ A full-stack TODO application — Go REST API backend + React frontend.
 
 ## Docs
 
-- [Using AI to code from a Figma design](docs/figma-ai-coding.md)
+- [Using AI to code from a Figma design](docs/figma-ai-coding-intro.md) — how to use Claude + Figma MCP to generate React components
+- [App development PRD guide](docs/figma-ai-coding-principle.md) — template for planning any app before you start coding
+- [Do you need Storybook?](docs/do-you-need-storybook.md) — when you need Storybook and when Untitled UI is enough
+- [Testing & code review](docs/testing-review.md) — Playwright, `/review` and custom audit rules explained
 
 ---
 
 ## Monorepo structure
+
+A monorepo keeps both the backend and frontend in one place, so you always have a single source of truth — no juggling multiple repositories, branches, or versions when making changes that touch both sides. It also makes it easy to share types, configs, and scripts across projects without publishing packages or dealing with dependency hell.
 
 ```
 TODOtest/

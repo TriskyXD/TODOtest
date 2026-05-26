@@ -27,7 +27,9 @@
       "PowerShell($paths = @\\(\"C:\\\\Go\\\\bin\\\\go.exe\", \"C:\\\\Program Files\\\\Go\\\\bin\\\\go.exe\", \"$env:USERPROFILE\\\\go\\\\bin\\\\go.exe\", \"$env:LOCALAPPDATA\\\\Programs\\\\Go\\\\bin\\\\go.exe\"\\); foreach \\($p in $paths\\) { if \\(Test-Path $p\\) { Write-Output \"Found: $p\"; & $p version } })",
       "PowerShell($env:PATH -split \";\" | Where-Object { $_ -match \"go\" })",
       "PowerShell($env:PATH = \"C:\\\\Program Files\\\\Go\\\\bin;$env:PATH\"; Set-Location \"C:\\\\Users\\\\vikto\\\\Desktop\\\\projekt\\\\TODOtest\\\\BETODO\"; $job = Start-Job -ScriptBlock { $env:PATH = \"C:\\\\Program Files\\\\Go\\\\bin;$env:PATH\"; Set-Location \"C:\\\\Users\\\\vikto\\\\Desktop\\\\projekt\\\\TODOtest\\\\BETODO\"; & \"C:\\\\Program Files\\\\Go\\\\bin\\\\go.exe\" run ./cmd/server 2>&1 }; Start-Sleep 25; Receive-Job $job)",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "Bash(ls \"C:\\\\Users\\\\vikto\\\\Desktop\\\\projekt\\\\TODOtest\\\\\")",
+      "PowerShell(Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force)"
     ]
   }
 }

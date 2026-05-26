@@ -6,6 +6,11 @@ the more detail you put in here, the better Claude can help you build it.
 
 > This is not specific to any one project. It is a reusable guide for any app.
 
+> **How Claude reads this:** Claude Code automatically reads `CLAUDE.md` every session.
+> In this project, `CLAUDE.md` contains a link to this file — so Claude reads it too,
+> automatically, every time. That means your product context, target user, features and
+> tech stack are always loaded without you having to mention them.
+
 ---
 
 ## 1. Overview

@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Product context
+
+Read [docs/figma-ai-coding-principle.md](docs/figma-ai-coding-principle.md) for full product context — what the app is, target user, core features, out of scope, tech stack and screens.
+
+---
+
 ## Monorepo structure
 
 ```

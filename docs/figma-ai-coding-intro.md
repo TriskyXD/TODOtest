@@ -7,6 +7,11 @@ Figma designs into real, reusable React components — no Pro plan required.
 
 ## How it works
 
+> **Important:** Claude Code automatically reads `CLAUDE.md` at the root of your project
+> every single session before you type anything. This means any context you put there —
+> architecture, conventions, design rules, product description — is always available to Claude
+> without you having to repeat it. Think of it as a permanent briefing file.
+
 Claude Code connects to Figma through an **MCP (Model Context Protocol)** server.
 This means Claude can read your Figma files directly — inspecting frames, components,
 colours, spacing, and more — and use that information to generate matching code.

@@ -5,6 +5,9 @@ A full-stack TODO application — Go REST API backend + React frontend.
 > **Vibecoded project** — built by someone learning as they go, with the help of AI.
 > Not production-ready, but a great starting point for exploring Go + React + Figma-driven development.
 
+## Figma design:
+https://www.figma.com/design/wTXAFB10u1FO9Nyr8RTlWo/TODOtest?node-id=0-1&t=nQcwqa4snoeeVvgy-1 
+
 ## Docs
 
 - [Using AI to code from a Figma design](docs/figma-ai-coding-intro.md) — how to use Claude + Figma MCP to generate React components

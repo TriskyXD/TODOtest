@@ -94,6 +94,10 @@ claude mcp add --transport http figma https://mcp.figma.com/mcp
 This registers the Figma MCP server so Claude can read your Figma files.
 You only need to do this once — it saves to your Claude Code config automatically.
 
+> Official Figma MCP documentation
+> For more details about authentication, permissions, troubleshooting, and supported features, see the official Figma guide:
+> https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server
+
 ### 3. Authenticate with Figma
 
 The first time Claude tries to access a Figma file it will prompt you to log in.
@@ -157,3 +161,4 @@ and it is ready to import and reuse anywhere in the app.
   update it without touching Figma again.
 - **Tailwind tokens** — if your project uses design tokens in `tailwind.config.js`,
   tell Claude about them. It will prefer token names over arbitrary values.
+  
